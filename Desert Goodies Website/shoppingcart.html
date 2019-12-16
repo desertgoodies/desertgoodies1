@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<link rel="icon" href="unicorn1.png">
+
+<title>Shopping Cart</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="slideshowPromotion.css">
+<link rel="stylesheet" href="home1.css">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="footer.css">
+<link rel="stylesheet" href="shop.css">
+<link rel="stylesheet" href="ShoppingCart.css">
+<script src='https://kit.fontawesome.com/a076d05399.js'></script>
+<meta name= "viewport" content="width=device-width, initial-scale=1">
+<meta charset="UTF-8">
+
+
+<!--header -->
+<div class="header">
+<a href="shoppingcart.html">
+  <img src="img/cart.png" style="width:40px; height:40px ;float: right;" title="Shopping Cart" alt="Shopping Cart" ></a>
+<img src="img/unicorn1.png" alt="logo" height="200" width="150" />
+  <h1><strong>Desert Goodies Website</strong></h1>
+  <script type="text/javascript">
+document.write("<p>"+Date()+ "</p>");
+</script>
+</div>
+
+<!-- end header -->
+
+<!-- nav bar -->
+
+<div class="topnav" align="center-right">
+  <a href="home.html">Home</a>
+  
+	<div class="dropdown">
+	<button class="dropbtn">Menu 
+	<i class="fa fa-caret-down"></i>
+	</button>
+	<div class="dropdown-content">
+	<a href="cookies.html">Cookies</a><br>
+	<a href="cake.html">Cake</a><br>
+	<a href="goodies.html">Goodies</a>
+	</div>
+	</div>
+
+  <a href="Faq1.html">FAQ</a>
+  <a href="contactUs.html">Contact Us</a>
+  <div class="search-container">
+    <form action="/action_page.php">
+      <input type="text" placeholder="Search.." name="search">
+      <button type="submit"><i class="fa fa-search"></i></button>
+    </form>
+  </div>
+</div>
+</br>
+<!-- end nav bar -->
+
+</head>
+<body>
+<!--  shopping-cart -->
+<div class="w3-container">
+<h1>Shopping Cart</h1>
+
+<div class="shopping-cart">
+
+  <div class="column-labels">
+    <label class="product-image">Image</label>
+    <label class="product-details">Product</label>
+    <label class="product-price">Price</label>
+    <label class="product-quantity">Quantity</label>
+    <label class="product-removal">Remove</label>
+    <label class="product-line-price">Total</label>
+  </div>
+
+  <div class="product">
+    <div class="product-image">
+      <img src="img/cake4.png">
+    </div>
+    <div class="product-details">
+      <div class="product-title">D24 Durian Crepe Cake</div>
+      <p class="product-description">Cake</p>
+    </div>
+    <div class="product-price">109.00</div>
+    <div class="product-quantity">
+      <input type="number" value="1" min="1">
+    </div>
+    <div class="product-removal">
+      <button class="remove-product">
+        Remove
+      </button>
+    </div>
+    <div class="product-line-price">109.00</div>
+  </div>
+
+  <div class="product">
+    <div class="product-image">
+      <img src="img/sekut5.png">
+    </div>
+    <div class="product-details">
+      <div class="product-title">Mini Peanut Macarons</div>
+      <p class="product-description">Cookies</p>
+    </div>
+    <div class="product-price">29.00</div>
+    <div class="product-quantity">
+      <input type="number" value="1" min="1">
+    </div>
+    <div class="product-removal">
+      <button class="remove-product">
+        Remove
+      </button>
+    </div>
+    <div class="product-line-price">29.00</div>
+  </div>
+  <button onclick="window.location.href = 'menu.html';" class="w3-button w3-border w3-black w3-;left">CONTINUE SHOPPING</button>
+
+
+  <div class="totals">
+    <div class="totals-item">
+	 <label><b>SUMMARY<b></label>
+	 <br></br>
+      <label>Subtotal</label>
+      <div class="totals-value" id="cart-subtotal">138.00</div>
+    </div>
+    <div class="totals-item">
+      <label>Postage Charge</label>
+      <div class="totals-value" id="cart-tax">10.00</div>
+    </div>
+    <div class="totals-item">
+      <label>Grand Total</label>
+      <div class="totals-value" id="cart-shipping">148.00</div>
+    </div>
+    <div class="totals-item totals-item-total">
+
+	<br></br><button onclick="window.location.href = 'checkout.html';" class="w3-button w3-border w3-black w3-right">Checkout</button>
+  </div>
+</div>
+</div>
+</div>
+
+<script>
+/* Set rates + misc */
+var taxRate = 0.05;
+var shippingRate = 15.00; 
+var fadeTime = 300;
+
+
+/* Assign actions */
+$('.product-quantity input').change( function() {
+  updateQuantity(this);
+});
+
+$('.product-removal button').click( function() {
+  removeItem(this);
+});
+
+
+/* Recalculate cart */
+function recalculateCart()
+{
+  var subtotal = 0;
+  
+  /* Sum up row totals */
+  $('.product').each(function () {
+    subtotal += parseFloat($(this).children('.product-line-price').text());
+  });
+  
+  /* Calculate totals */
+  var tax = subtotal * taxRate;
+  var shipping = (subtotal > 0 ? shippingRate : 0);
+  var total = subtotal + tax + shipping;
+  
+  /* Update totals display */
+  $('.totals-value').fadeOut(fadeTime, function() {
+    $('#cart-subtotal').html(subtotal.toFixed(2));
+    $('#cart-tax').html(tax.toFixed(2));
+    $('#cart-shipping').html(shipping.toFixed(2));
+    $('#cart-total').html(total.toFixed(2));
+    if(total == 0){
+      $('.checkout').fadeOut(fadeTime);
+    }else{
+      $('.checkout').fadeIn(fadeTime);
+    }
+    $('.totals-value').fadeIn(fadeTime);
+  });
+}
+
+
+/* Update quantity */
+function updateQuantity(quantityInput)
+{
+  /* Calculate line price */
+  var productRow = $(quantityInput).parent().parent();
+  var price = parseFloat(productRow.children('.product-price').text());
+  var quantity = $(quantityInput).val();
+  var linePrice = price * quantity;
+  
+  /* Update line price display and recalc cart totals */
+  productRow.children('.product-line-price').each(function () {
+    $(this).fadeOut(fadeTime, function() {
+      $(this).text(linePrice.toFixed(2));
+      recalculateCart();
+      $(this).fadeIn(fadeTime);
+    });
+  });  
+}
+
+
+/* Remove item from cart */
+function removeItem(removeButton)
+{
+  /* Remove row from DOM and recalc cart total */
+  var productRow = $(removeButton).parent().parent();
+  productRow.slideUp(fadeTime, function() {
+    productRow.remove();
+    recalculateCart();
+  });
+}
+</script>
+
+<!-- end shopping-cart -->
+</body>
+
+<!-- footer -->
+<footer class="footer-distributed">
+ 
+<div class="footer-left">
+         
+<h3>Customer<span>Care</span></h3>
+ 
+<p class="footer-links">
+<a href="AboutUs.html">About Us</a>
+<br>
+
+<a href="Faq1.html">FAQ</a>
+<br>
+<a href="term_conditions.html">Term & Condition</a>
+<br>
+<a href="https://www.tracking.my">Track Order</a>
+</p>
+ 
+<p class="footer-company-name">© 2019 DesertGoodies</p>
+</div>
+
+
+<div class="footer-center">
+<p class="footer-icons">
+<br><br><br>
+<p>Contact Us</p><br><br>
+<a href="http://www.facebook.com">
+<img src="img/fb2.png" style="width:82px; height:86px" title="FB" alt="FB"></a>
+
+<a href="http://www.instagram.com">
+<img src="img/insta.png" style="width:82px; height:86px" title="Instagram" alt="Instagram"></a>
+
+<a href="http://www.twitter.com">
+<img src="img/twitter2.png" style="width:82px; height:86px" title="Twitter" alt="Twitter"></a>
+
+<a href="http://www.gmail.com">
+<img src="img/email.png" style="width:82px; height:86px" title="Gmail" alt="Gmail"></a>
+
+</p>
+
+ 
+</div>
+
+<div class="footer-right">
+<p class="footer-company-about">
+<span>NEWSLETTER</span>
+Stay up to date with news and promotions by signing up for our newsletter and you will 
+always be the first to be informed.</p>
+<div class="form-group">
+<input name="formfields[nl_email]" id="nl_email" class="validate[required]" 
+placeholder="Enter your email address" type="text" value="">
+<button type="submit" class="btn btn-motive">SignUp</button>
+</div>
+</div>
+
+
+
+</footer>
+</html>
